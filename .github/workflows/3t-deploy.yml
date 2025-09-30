@@ -85,8 +85,8 @@ jobs:
             TF_VAR_resource_prefix: ${{secrets.resource_prefix}}
             TF_VAR_resource_group_name: ${{secrets.resource_group_name}}
             TF_VAR_resource_group_location: ${{secrets.resource_group_location}}
-            TF_VAR_be_port: ${{secrets.be_port}}
-            TF_VAR_fe_port: ${{secrets.fe_port}}
+            TF_VAR_be_port: 80
+            TF_VAR_fe_port: 80
             TF_VAR_be_tag: ${{needs.build_backend_and_push.outputs.backend_version}}
             TF_VAR_fe_tag: ${{needs.build_frontend_and_push.outputs.frontend_version}}
         name: "Builds the infrastructure on Azure"
@@ -105,6 +105,11 @@ jobs:
 
             - name: "Initialize Terraform"
               run: terraform init
+
+            - name: Export the image names
+              run: |
+                  export TF_VAR_be_image_name=${{env.be_image_name}}
+                  export TF_VAR_fe_image_name=${{env.fe_image_name}}
 
             - name: Run Terraform Plan
               run: terraform plan
