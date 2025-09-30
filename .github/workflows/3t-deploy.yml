@@ -116,5 +116,5 @@ jobs:
       - name: Run Terraform Plan
         run: terraform plan
 
-      - name: Apply Terraform
-        run: terraform apply -auto-approve
+      - name: Apply Terraform (Few times due to inconsistent plan errors that just resolve with retry.)
+        run: terraform apply -auto-approve || terraform apply -auto-approve || terraform apply -auto-approve
