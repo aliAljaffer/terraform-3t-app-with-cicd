@@ -1,0 +1,10 @@
+secrets*
+.terraform*
+!.example.*
+*.tfstate*
+*.tfvars
+!terraform.example.tfvars
+.DS_Store
+*.sh
+deadcode.tf
+**/*.env
