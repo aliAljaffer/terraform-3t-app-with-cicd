@@ -14,7 +14,7 @@ resource "azurerm_linux_web_app" "fe_app" {
   name                          = local.fe_app_name
   location                      = var.rg_location
   resource_group_name           = var.rg_name
-  service_plan_id               = azurerm_service_plan.service_plan_fe.id
+  service_plan_id               = azurerm_service_plan.service_plan[local.service_plan_name_fe]
   virtual_network_subnet_id     = var.subnet_fe_id
   public_network_access_enabled = local.public_access
 
@@ -37,7 +37,7 @@ resource "azurerm_linux_web_app" "be_app" {
   name                          = local.be_app_name
   location                      = var.rg_location
   resource_group_name           = var.rg_name
-  service_plan_id               = azurerm_service_plan.service_plan_be.id
+  service_plan_id               = azurerm_service_plan.service_plan[local.service_plan_name_be]
   virtual_network_subnet_id     = var.subnet_be_id
   depends_on                    = [var.subnet_be_id]
   vnet_image_pull_enabled       = true
@@ -76,7 +76,7 @@ resource "azurerm_linux_web_app" "be_app" {
 }
 
 resource "azurerm_service_plan" "service_plan" {
-  for_each            = [local.service_plan_name_fe, local.service_plan_name_be]
+  for_each            = toset([local.service_plan_name_fe, local.service_plan_name_be])
   name                = each.value
   resource_group_name = var.rg_name
   location            = var.rg_location
