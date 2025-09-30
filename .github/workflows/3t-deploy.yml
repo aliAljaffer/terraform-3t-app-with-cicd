@@ -40,7 +40,7 @@ jobs:
           push: true
           tags: |
             "${{ env.fe_image_name}}:${{ steps.versions.outputs.frontend }}"
-            "${{env.fe_image_name}}:latest"
+            "${{ env.fe_image_name }}:latest"
           context: "./ecommerce-app-frontend"
 
   build_backend_and_push:
@@ -72,8 +72,8 @@ jobs:
         with:
           push: true
           tags: |
-            "${{ env.be_image_name}}:${{ steps.versions.outputs.backend }}"
-            "${{env.be_image_name}}:latest"
+            "${{ env.be_image_name }}:${{ steps.versions.outputs.backend }}"
+            "${{ env.be_image_name }}:latest"
           context: "./ecommerce-app-backend"
 
   build_infrastructure:
@@ -89,8 +89,8 @@ jobs:
       TF_VAR_resource_group_location: ${{secrets.resource_group_location}}
       TF_VAR_be_port: 80
       TF_VAR_fe_port: 80
-      TF_VAR_be_tag: ${{needs.build_backend_and_push.outputs.backend_version}}
-      TF_VAR_fe_tag: ${{needs.build_frontend_and_push.outputs.frontend_version}}
+      TF_VAR_be_tag: ${{ needs.build_backend_and_push.outputs.backend_version }}
+      TF_VAR_fe_tag: ${{ needs.build_frontend_and_push.outputs.frontend_version }}
     name: "Builds the infrastructure on Azure"
     runs-on: ubuntu-latest
     steps:

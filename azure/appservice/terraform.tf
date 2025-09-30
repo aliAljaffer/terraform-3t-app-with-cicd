@@ -25,7 +25,7 @@ resource "azurerm_linux_web_app" "fe_app" {
     application_stack {
       docker_image_name = "${var.fe_image_name}:${var.fe_tag}"
     }
-    health_check_path                 = "/health"
+    health_check_path                 = "/"
     health_check_eviction_time_in_min = 5
   }
   app_settings = {
