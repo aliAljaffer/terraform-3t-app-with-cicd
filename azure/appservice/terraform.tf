@@ -75,15 +75,9 @@ resource "azurerm_linux_web_app" "be_app" {
 
 }
 
-resource "azurerm_service_plan" "service_plan_be" {
-  name                = local.service_plan_name_be
-  resource_group_name = var.rg_name
-  location            = var.rg_location
-  os_type             = "Linux"
-  sku_name            = local.fe_sku
-}
-resource "azurerm_service_plan" "service_plan_fe" {
-  name                = local.service_plan_name_fe
+resource "azurerm_service_plan" "service_plan" {
+  for_each            = [local.service_plan_name_fe, local.service_plan_name_be]
+  name                = each.value
   resource_group_name = var.rg_name
   location            = var.rg_location
   os_type             = "Linux"
